@@ -1,0 +1,6 @@
+name: hello
+functions:
+  helloWorld:
+    path: hello.ts:helloWorld
+    command:
+      name: "Say hello"

@@ -1,0 +1,19 @@
+{
+  "importMap": "import_map.json",
+  "tasks": {
+    "build": "silverbullet plug:compile hello.plug.yaml",
+    "watch": "silverbullet plug:compile hello.plug.yaml -w"
+  },
+  "lint": {
+    "rules": {
+      "exclude": ["no-explicit-any"]
+    }
+  },
+  "fmt": {
+    "exclude": [
+      "*.md",
+      "**/*.md",
+      "*.plug.js"
+    ]
+  }
+}
