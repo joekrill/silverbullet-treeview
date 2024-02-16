@@ -1,5 +1,5 @@
 name: treeview
-version: 0.1
+version: 0.2
 assets:
   - "assets/**/*.*"
 functions:

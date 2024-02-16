@@ -33,7 +33,7 @@ async function showConfigErrorNotification(error: unknown) {
   }
 
   configErrorShown = true;
-  let errorMessage = String(error);
+  let errorMessage = `${typeof error}: ${String(error)}`;
 
   if (error instanceof ZodError) {
     const { formErrors, fieldErrors } = error.flatten();
@@ -59,7 +59,7 @@ export async function getPlugConfig(): Promise<TreeViewConfig> {
   const userConfig = await readSetting(PLUG_NAME);
 
   try {
-    return treeViewConfigSchema.parse(userConfig);
+    return treeViewConfigSchema.parse(userConfig || {});
   } catch (_err) {
     if (!configErrorShown) {
       showConfigErrorNotification(_err);
