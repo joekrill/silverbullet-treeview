@@ -1,0 +1,203 @@
+/******************************************************************************
+ * Variables from silverbullet theme 
+ * 
+ * Ideally these would be injected by showPanel. But for now they are just 
+ * copied here. 
+ *****************************************************************************/
+
+html {
+  --ui-accent-color: #464cfc;
+  --highlight-color: rgba(255, 255, 0, 0.5);
+  --link-color: #0330cb;
+  --link-missing-color: #9e4705;
+
+  --root-background-color: #fff;
+  --root-color: inherit;
+
+  --top-color: inherit;
+  --top-background-color: #e1e1e1;
+  --top-border-color: #cacaca;
+
+  --action-button-background-color: transparent;
+  --action-button-color: #292929;
+  --action-button-hover-color: #0772be;
+  --action-button-active-color: #0772be;
+  
+  --editor-list-bullet-color: rgb(150, 150, 150);
+  --editor-command-button-color: inherit;
+  --editor-wiki-link-page-background-color: rgba(77, 141, 255, 0.07);
+  --editor-wiki-link-page-color: var(--link-color);
+  --editor-wiki-link-page-missing-color: var(--link-missing-color);
+  --editor-wiki-link-color: #8f96c2;
+  --editor-widget-background-color: rgb(238, 238, 238);
+  
+  --ui-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --editor-font: "iA-Mono", "Menlo";
+}
+
+html[data-theme="dark"] {
+  --ui-accent-color: #464cfc;
+  --highlight-color: rgba(255, 255, 0, 0.5);
+  --link-color: #7e99fc;
+  --link-missing-color: #9e4705;
+
+  --root-background-color: #111;
+  --root-color: #fff;
+
+  --top-color: #fff;
+  --top-background-color: #262626;
+  --top-border-color: rgb(62, 62, 62);
+
+  --action-button-background-color: transparent;
+  --action-button-color: #adadad;
+  --action-button-hover-color: #37a1ed;
+  --action-button-active-color: #37a1ed;
+
+  --editor-list-bullet-color: rgb(150, 150, 150);
+  --editor-command-button-color: #fff;
+  --editor-wiki-link-page-background-color: #a3bce712;
+  --editor-wiki-link-page-color: var(--link-color);
+  --editor-wiki-link-page-missing-color: var(--link-missing-color);
+  --editor-wiki-link-color: #8f96c2;
+  --editor-widget-background-color: rgba(72, 72, 72, 0.5);
+}
+
+/******************************************************************************
+ * Page variables
+ *****************************************************************************/
+
+.treeview-root {
+  /* SortableTree variables */
+  --st-label-height: auto;
+  --st-subnodes-padding-left: 1rem;
+  --st-collapse-icon-height: 2.1rem;
+  --st-collapse-icon-width: 1.25rem;
+  --st-collapse-icon-size: 1rem;
+
+  /** treeview ariables */
+  --page-color: var(--editor-wiki-link-page-color);
+  --page-background-color: var(--editor-wiki-link-page-background-color);
+  --folder-color: var(--editor-wiki-link-page-missing-color);
+
+	--current-page-color: #eee;
+	--current-page-background-color: var(--ui-accent-color);
+}
+
+/******************************************************************************
+ * Page styles
+ *****************************************************************************/
+
+html, body {
+  background-color: var(--root-background-color);
+  padding: 0;
+  margin: 0;
+}
+
+.treeview-root {
+  background-color: var(--root-background-color);
+  color: var(--root-color);
+  font-family: var(--ui-font);
+}
+
+/******************************************************************************
+ * Header styles
+ *
+ * Action styles are meant to mimic the Top Bar icons (`sb-actions`)
+ *****************************************************************************/
+
+ .treeview-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 0.5rem;
+  background-color: var(--root-background-color);
+}
+
+.treeview-actions {
+  display: flex;
+  padding-left: var(--st-subnodes-padding-left);
+  background-color: var(--editor-widget-background-color);
+  border: var(--top-border-color) 1px solid;
+  border-radius: 5px;
+  color: var(--top-color);
+}
+
+.treeview-actions > .spacer {
+  flex: 1;
+}
+
+.treeview-actions > button {
+  display: flex;
+  align-items: center;
+  margin: 3px;
+  padding: 5px;
+  background-color: var(--action-button-background-color);
+  border: 0;
+  color: var(--action-button-color);
+  cursor: pointer;
+}
+
+.treeview-actions > button:hover {
+  color: var(--action-button-hover-color);
+}
+
+.treeview-actions > button:hover {
+  color: var(--action-button-active-color);
+}
+
+.treeview-actions > button > svg {
+  height: 18px;
+  width: 18px;
+}
+
+/******************************************************************************
+ * SortableTree styles
+ *****************************************************************************/
+
+.tree {
+	display: flex;
+	flex-direction: column;
+  margin: 0rem 1rem 1rem;
+  padding-left: var(--st-subnodes-padding-left);
+}
+
+.tree__label {
+  display: flex;
+  padding: 2px;
+}
+
+.tree__label > span {
+  overflow: hidden;
+  padding: 0 5px;
+  background-color: var(--page-background-color);
+  border: var(--page-background-color) 1px solid;
+  border-radius: 5px;
+  color: var(--page-color);
+  cursor: pointer;
+  font-family: var(--editor-font);
+  font-size: 18px;
+  line-height: 1.4;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+}
+
+.tree__label > span[data-node-type="page"] {
+  border-color: var(--page-background-color);
+}
+
+.tree__label > span[data-node-type="folder"] {
+  color: var(--folder-color);
+}
+
+.tree__label > span[data-current-page="true"] {
+	background-color: var(--current-page-background-color);
+	color: var(--current-page-color);
+}
+
+.tree__collapse {
+  color: var(--editor-command-button-color);
+}

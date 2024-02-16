@@ -1,0 +1,45 @@
+/*! Sortable Tree 0.7.2, (c) 2023 Marc Anton Dahmen, MIT license */
+:root {
+    --st-label-height: 2.5rem;
+    --st-subnodes-padding-left: 1.5rem;
+    --st-collapse-icon-height: var(--st-label-height);
+    --st-collapse-icon-width: 1.25rem;
+    --st-collapse-icon-size: 0.75rem;
+  }
+  sortable-tree-node {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  sortable-tree-node * {
+    user-select: none;
+  }
+  sortable-tree-node > :first-child {
+    display: flex;
+    align-items: center;
+    height: var(--st-label-height);
+  }
+  sortable-tree-node > :nth-child(2) {
+    display: none;
+    flex-direction: column;
+    padding-left: var(--st-subnodes-padding-left);
+  }
+  sortable-tree-node[open] > div:nth-child(2) {
+    display: flex;
+  }
+  sortable-tree-node > :nth-child(3) {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    top: 0;
+    left: calc(var(--st-collapse-icon-width) * -1);
+    height: var(--st-collapse-icon-height);
+    font-size: var(--st-collapse-icon-size);
+    cursor: pointer;
+  }
+  sortable-tree-node > :nth-child(2):empty + span {
+    display: none;
+  }
+  
+  

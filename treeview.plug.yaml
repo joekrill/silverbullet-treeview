@@ -1,0 +1,27 @@
+name: treeview
+version: 0.1
+assets:
+  - "assets/**/*.*"
+functions:
+  # API
+  hide:
+    path: "./treeview.ts:hideTree"
+  
+  show:
+    path: "./treeview.ts:showTree"
+  
+  showIfEnabled:
+    path: "./treeview.ts:showTreeIfEnabled"
+    events:
+      - plug:load
+      - editor:pageLoaded
+      - editor:pageReloaded
+      - editor:updated
+
+  # User facing
+  toggle:
+    path: "./treeview.ts:toggleTree"
+    command:
+      name: "Tree View: Toggle"
+      key: Ctrl-alt-b
+      mac: Cmd-alt-b
