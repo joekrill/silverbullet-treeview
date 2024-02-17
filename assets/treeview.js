@@ -8,7 +8,7 @@ const STATE_ID = "treeview";
  * invalid with the state. So if there is an error, this clears the state
  * and tries once more to create the tree.
  */
-function createPageTree(nodes, retries = 1) {
+function createTreeView(nodes, retries = 1) {
   try {
     return new SortableTree({
       nodes,
@@ -35,7 +35,7 @@ function createPageTree(nodes, retries = 1) {
       // SortableTree can throw an error if the state somehow becomes invalid.
       // This attempts to recover from that.
       sessionStorage.removeItem(`sortableTreeState-${STATE_ID}`);
-      return createPageTree(0);
+      return createTreeView(0);
     } else {
       throw err;
     }
@@ -44,7 +44,7 @@ function createPageTree(nodes, retries = 1) {
 
 // deno-lint-ignore no-unused-vars
 function initializeTreeView(settings) {
-  const tree = createPageTree(settings.nodes);
+  const tree = createTreeView(settings.nodes);
   const currentNode = tree.findNode("name", settings.currentPage);
   
   const revealCurrentPage = () => {
