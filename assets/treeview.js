@@ -12,6 +12,7 @@ function createPageTree(nodes, retries = 1) {
   try {
     return new SortableTree({
       nodes,
+      disableSorting: true,
       element: document.getElementById("treeview-tree"),
       stateId: STATE_ID,
       initCollapseLevel: 0,
