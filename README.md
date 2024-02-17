@@ -3,7 +3,9 @@
 
 This plugs adds a tree view that allows you to navigate your SilverBullet pages Hierarchically.
 
-![Screenshot](screenshot.png)
+
+<a href="screenshot.png"><img src="screenshot.png" width="400"  /></a>
+<a href="screenshot-dark.png"><img src="screenshot-dark.png" width="400"  /></a>
 
 ## Installation
 
