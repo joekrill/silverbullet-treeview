@@ -43,6 +43,20 @@ treeview:
   size: 1 
 ```
 
+### Adding a top bar toggle icon
+
+![Screenshot](screenshot-action-button.png)
+
+You can add add a button to the top bar that will toggle the tree view by adding 
+the following to your `actionButtons` in your `SETTINGS` page:
+
+```yaml
+actionButtons:
+- icon: sidebar
+  command: "{[Tree View: Toggle]}"
+  description: "Toggle Tree View"
+```
+
 ## Build
 
 To build this plug, make sure you have [SilverBullet installed](https://silverbullet.md/Install). Then, build the plug with:
