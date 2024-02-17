@@ -43,7 +43,7 @@ function createPageTree(nodes, retries = 1) {
 }
 
 // deno-lint-ignore no-unused-vars
-function initializePageTree(settings) {
+function initializeTreeView(settings) {
   const tree = createPageTree(settings.nodes);
   const currentNode = tree.findNode("name", settings.currentPage);
   

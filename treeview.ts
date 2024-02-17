@@ -117,7 +117,7 @@ export async function showTree() {
       ${sortableTreeJs}
       ${plugJs}
 
-      initializePageTree({
+      initializeTreeView({
         nodes: ${JSON.stringify(nodes)},
         currentPage: ${JSON.stringify(currentPage)},
       });
