@@ -10,6 +10,8 @@ html {
   --highlight-color: rgba(255, 255, 0, 0.5);
   --link-color: #0330cb;
   --link-missing-color: #9e4705;
+  --subtle-color: #676767;
+  --subtle-background-color: rgba(72, 72, 72, 0.1);
 
   --root-background-color: #fff;
   --root-color: inherit;
@@ -42,6 +44,8 @@ html[data-theme="dark"] {
   --highlight-color: rgba(255, 255, 0, 0.5);
   --link-color: #7e99fc;
   --link-missing-color: #9e4705;
+  --subtle-color: #959595;
+  --subtle-background-color: rgba(105, 105, 105, 0.1);
 
   --root-background-color: #111;
   --root-color: #fff;
@@ -71,7 +75,7 @@ html[data-theme="dark"] {
 .treeview-root {
   /* SortableTree variables */
   --st-label-height: auto;
-  --st-subnodes-padding-left: 1rem;
+  --st-subnodes-padding-left: 1.25rem;
   --st-collapse-icon-height: 2.1rem;
   --st-collapse-icon-width: 1.25rem;
   --st-collapse-icon-size: 1rem;
@@ -81,6 +85,8 @@ html[data-theme="dark"] {
   --page-background-color: var(--editor-wiki-link-page-background-color);
   --folder-color: var(--editor-wiki-link-page-missing-color);
 
+  --node-border-width: 2px;
+  --node-border-radius: 5px;
 	--current-page-color: #eee;
 	--current-page-background-color: var(--ui-accent-color);
 }
@@ -111,7 +117,7 @@ html, body {
   position: sticky;
   top: 0;
   z-index: 2;
-  padding: 0.5rem;
+  padding: 0.5rem 0.5rem 0rem;
   background-color: var(--root-background-color);
 }
 
@@ -159,7 +165,7 @@ html, body {
 .tree {
 	display: flex;
 	flex-direction: column;
-  margin: 0rem 1rem 1rem;
+  margin: 0.25rem 0.5rem 1rem;
   padding-left: var(--st-subnodes-padding-left);
 }
 
@@ -168,12 +174,31 @@ html, body {
   padding: 2px;
 }
 
+.tree__label:after {
+  content: '';
+  position: absolute;
+  z-index: 4;
+  inset: calc(var(--node-border-width) * -1) var(--node-border-width);
+  border-top: calc(var(--node-border-width) * 2) solid transparent;
+  border-bottom: calc(var(--node-border-width) * 2) solid transparent;
+  transition: border-color 0.2s;
+  pointer-events: none;
+}
+
+.tree__node--drop-before > .tree__label:after {
+  border-top-color: var(--ui-accent-color);
+}
+
+.tree__node--drop-after > .tree__label:after {
+  border-bottom-color: var(--ui-accent-color);
+}
+
 .tree__label > span {
   overflow: hidden;
   padding: 0 5px;
   background-color: var(--page-background-color);
-  border: var(--page-background-color) 1px solid;
-  border-radius: 5px;
+  border: var(--page-background-color) var(--node-border-width) solid;
+  border-radius: var(--node-border-radius);
   color: var(--page-color);
   cursor: pointer;
   font-family: var(--editor-font);
@@ -182,7 +207,6 @@ html, body {
   text-decoration: none;
   text-overflow: ellipsis;
   white-space: nowrap;
-
 }
 
 .tree__label > span[data-node-type="page"] {
@@ -200,4 +224,25 @@ html, body {
 
 .tree__collapse {
   color: var(--editor-command-button-color);
+}
+
+.tree__node--dragging {
+  margin: calc(var(--node-border-width) * -1);
+  border: var(--node-border-width) dashed var(--subtle-color);
+  border-radius: var(--node-border-radius);
+  cursor: move !important;
+}
+
+.tree__node--dragging .tree__label > span {
+  opacity: 0.75;
+}
+
+.tree__node--drop-inside > .tree__label > span {
+  z-index: 3;
+  background-color: var(--subtle-background-color);
+  border-color: var(--ui-accent-color);
+}
+
+.tree__node--drop-inside > .tree__label > span[data-current-page="true"] {
+	color: var(--page-color);
 }

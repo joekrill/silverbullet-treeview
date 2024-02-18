@@ -6,6 +6,7 @@ import {
   Position,
   setTreeViewEnabled,
 } from "./config.ts";
+import { supportsPageRenaming } from "./compatability.ts";
 import { getPlugConfig } from "./config.ts";
 import { getSilverBulletTheme } from "./config.ts";
 
@@ -83,6 +84,17 @@ export async function showTree() {
   ]);
 
   const { currentPage, nodes } = await getPageTree();
+
+  const treeViewConfig = {
+    nodes,
+    currentPage,
+    treeElementId: "treeview-tree",
+    dragAndDrop: {
+      ...config.dragAndDrop,
+      enabled: config.dragAndDrop.enabled && await supportsPageRenaming(),
+    },
+  };
+
   await editor.showPanel(
     config.position,
     config.size,
@@ -98,15 +110,15 @@ export async function showTree() {
         <div class="treeview-root">
           <div class="treeview-header">
             <div class="treeview-actions">
-              <button type="button" id="treeview-action-button-expand-all" title="Expand All">${iconFolderPlus}</button>
-              <button type="button" id="treeview-action-button-collapse-all" title="Collapse All">${iconFolderMinus}</button>
-              <button type="button" id="treeview-action-button-reveal-current-page" title="Reveal current page">${iconNavigation2}</button>
-              <button type="button" id="treeview-action-button-refresh" title="Refresh tree">${iconRefresh}</button>
+              <button type="button" data-treeview-action="expand-all" title="Expand All">${iconFolderPlus}</button>
+              <button type="button" data-treeview-action="collapse-all" title="Collapse All">${iconFolderMinus}</button>
+              <button type="button" data-treeview-action="reveal-current-page" itle="Reveal current page">${iconNavigation2}</button>
+              <button type="button" data-treeview-action="refresh">${iconRefresh}</button>
               <div class="spacer"></div>
-              <button type="button" id="treeview-action-button-close" title="Close tree">${iconXCircle}</button>
+              <button type="button" data-treeview-action="close-panel" title="Close tree">${iconXCircle}</button>
             </div>
           </div>
-          <div id="treeview-tree"></div>
+          <div id="${treeViewConfig.treeElementId}"></div>
         </div>
       </body>
       </html>`,
@@ -117,10 +129,7 @@ export async function showTree() {
       ${sortableTreeJs}
       ${plugJs}
 
-      initializeTreeView({
-        nodes: ${JSON.stringify(nodes)},
-        currentPage: ${JSON.stringify(currentPage)},
-      });
+      initializeTreeViewPanel(${JSON.stringify(treeViewConfig)});
     `,
   );
 

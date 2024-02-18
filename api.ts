@@ -1,10 +1,22 @@
 import { editor, space } from "$sb/syscalls.ts";
 import { PageMeta } from "$sb/types.ts";
-
 export type NodeData = {
+  /**
+   * The complete page or folder name.
+   */
   name: string;
+
+  /**
+   * The name to display in the node to the user (generally the last
+   * portion of the `name`)
+   */
   title: string;
-  isCurrentPage: boolean;
+
+  /**
+   * True if this node represents the current active page
+   */
+  isCurrentPage?: boolean;
+
   nodeType: string;
 };
 

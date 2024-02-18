@@ -23,6 +23,10 @@ export type Position = typeof POSITIONS[number];
 const treeViewConfigSchema = z.object({
   position: z.enum(POSITIONS).optional().default("lhs"),
   size: z.number().gt(0).optional().default(1),
+  dragAndDrop: z.object({
+    enabled: z.boolean().optional().default(true),
+    confirmOnRename: z.boolean().optional().default(true),
+  }).optional().default({}),
 });
 
 export type TreeViewConfig = z.infer<typeof treeViewConfigSchema>;

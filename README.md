@@ -7,6 +7,8 @@ This plugs adds a tree view that allows you to navigate your SilverBullet pages 
 <a href="screenshot.png"><img src="screenshot.png" width="400"  /></a>
 <a href="screenshot-dark.png"><img src="screenshot-dark.png" width="400"  /></a>
 
+Dragging-and-dropping files and folders is supported but requires SilverBullet v0.7.2 or greater. If running < v0.7.2, this feature will be automatically disabled (regardless of [configuration](#configuration)).
+
 ## Installation
 
 Use the `Plugs: Add` command and enter the following URI:
@@ -25,7 +27,7 @@ Then run the `Plugs: Update` command and off you go!
 
 ## Configuration
 
-This plug can be configured using the `SETTINGS` page:
+This plug can be configured using the `SETTINGS` page (default values shown):
 
 ```yaml
 treeview:
@@ -41,6 +43,14 @@ treeview:
   # position = "modal": sets the margin around the modal window. 
   # position = "bhs": No effect
   size: 1 
+
+  dragAndDrop:
+    # Set to false to disable drag-and-drop
+    enabled: true
+
+    # Set to false to disable the confirmation prompt shown when dragging and 
+    # dropping pages that causes them to be renamed/moved.
+    confirmOnRename: true
 ```
 
 ### Adding a top bar toggle icon
@@ -48,7 +58,7 @@ treeview:
 ![Screenshot](screenshot-action-button.png)
 
 You can add add a button to the top bar that will toggle the tree view by adding 
-the following to your `actionButtons` in your `SETTINGS` page:
+the following to your `actionButtons` array in your `SETTINGS` page:
 
 ```yaml
 actionButtons:
