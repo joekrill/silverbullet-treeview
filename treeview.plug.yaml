@@ -1,5 +1,5 @@
 name: treeview
-version: 0.5
+version: 0.6
 assets:
   - "assets/**/*.*"
 functions:
@@ -17,6 +17,7 @@ functions:
       - editor:pageLoaded
       - editor:pageReloaded
       - editor:updated
+      - page:deleted
 
   # User facing
   toggle:
