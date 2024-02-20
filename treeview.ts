@@ -101,9 +101,10 @@ export async function showTree() {
     `
       <html>
       <head>
+        <link rel="stylesheet" href="/.client/main.css" />
         <style>
-        ${sortableTreeCss} 
-        ${plugCss}
+          ${sortableTreeCss} 
+          ${plugCss}
         </style>
       </head>
       <body>
