@@ -61,17 +61,25 @@ html, body {
 
 .treeview-actions {
   display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   background-color: var(--editor-widget-background-color);
   border: var(--top-border-color) 1px solid;
   border-radius: 5px;
   color: var(--top-color);
 }
 
-.treeview-actions > .spacer {
-  flex: 1;
+.treeview-actions-left,
+.treeview-actions-right {
+  display: flex;
 }
 
-.treeview-actions > button {
+.treeview-actions-left {
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.treeview-actions button {
   display: flex;
   align-items: center;
   margin: 3px;
@@ -82,15 +90,15 @@ html, body {
   cursor: pointer;
 }
 
-.treeview-actions > button:hover {
+.treeview-actions button:hover {
   color: var(--action-button-hover-color);
 }
 
-.treeview-actions > button:hover {
+.treeview-actions button:hover {
   color: var(--action-button-active-color);
 }
 
-.treeview-actions > button > svg {
+.treeview-actions button > svg {
   height: 18px;
   width: 18px;
 }

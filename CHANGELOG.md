@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 * Fix header button tooltips ([#9](https://github.com/joekrill/silverbullet-treeview/pull/9))
+* Wrap toolbar items when necessary on smaller screens ([#6](https://github.com/joekrill/silverbullet-treeview/issues/6))
 
 ## [0.7] - 2024-02-20
 
