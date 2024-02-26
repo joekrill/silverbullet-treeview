@@ -1,6 +1,7 @@
 import { asset, editor } from "$sb/syscalls.ts";
 import { getPageTree } from "./api.ts";
 import {
+  getCustomStyles,
   isTreeViewEnabled,
   PLUG_NAME,
   Position,
@@ -84,6 +85,7 @@ export async function showTree() {
   ]);
 
   const { currentPage, nodes } = await getPageTree();
+  const customStyles = await getCustomStyles();
 
   const treeViewConfig = {
     nodes,
@@ -105,6 +107,7 @@ export async function showTree() {
         <style>
           ${sortableTreeCss} 
           ${plugCss}
+          ${customStyles ?? ""}
         </style>
       </head>
       <body>

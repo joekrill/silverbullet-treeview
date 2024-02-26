@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+* Include [custom styles](https://silverbullet.md/STYLES) in tree panel (requires SilverBullet 0.7.2 or greater). 
+ 
+### Fixed
+
+* Fix header button tooltips ([#9](https://github.com/joekrill/silverbullet-treeview/pull/9))
+
 ## [0.7] - 2024-02-20
 
 ### Fixed
