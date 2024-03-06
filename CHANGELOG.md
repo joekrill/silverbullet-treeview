@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8] - 2024-02-26
+
+### Fixed
+
+* `clientStore` being called on the server-side was causing SilverBullet to crash ([SB#772](https://github.com/silverbulletmd/silverbullet/issues/772))
+
 ### Added
 
 * Include [custom styles](https://silverbullet.md/STYLES) in tree panel (requires SilverBullet 0.7.2 or greater). 

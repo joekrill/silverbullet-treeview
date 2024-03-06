@@ -1,5 +1,5 @@
 name: treeview
-version: 0.7
+version: 0.8
 assets:
   - "assets/**/*.*"
 functions:
@@ -13,7 +13,6 @@ functions:
   showIfEnabled:
     path: "./treeview.ts:showTreeIfEnabled"
     events:
-      - plug:load
       - editor:pageLoaded
       - editor:pageReloaded
       - editor:updated
