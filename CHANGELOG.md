@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9] - 2024-03-19
+
+### Fixed
+
+* Fix error when `page:deleted` event is triggered ([#11](https://github.com/joekrill/silverbullet-treeview/issues/11))
+
+
 ## [0.8] - 2024-02-26
 
 ### Fixed

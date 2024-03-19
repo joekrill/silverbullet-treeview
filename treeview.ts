@@ -1,4 +1,4 @@
-import { asset, editor } from "$sb/syscalls.ts";
+import { asset, editor, system } from "$sb/syscalls.ts";
 import { getPageTree } from "./api.ts";
 import {
   getCustomStyles,
@@ -43,8 +43,17 @@ export async function hideTree() {
  * Shows the treeview only if it is currently enabled.
  */
 export async function showTreeIfEnabled() {
-  if (await isTreeViewEnabled()) {
-    return await showTree();
+  try {
+    const env = await system.getEnv();
+    if (env === "server") {
+      return;
+    }
+
+    if (await isTreeViewEnabled()) {
+      return await showTree();
+    }
+  } catch (err) {
+    console.error("showTreeIfEnabled failed", err);
   }
 }
 

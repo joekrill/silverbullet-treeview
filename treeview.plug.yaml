@@ -1,5 +1,5 @@
 name: treeview
-version: 0.8
+version: 0.9
 assets:
   - "assets/**/*.*"
 functions:
@@ -13,11 +13,11 @@ functions:
   showIfEnabled:
     path: "./treeview.ts:showTreeIfEnabled"
     events:
+      - editor:init
       - editor:pageLoaded
       - editor:pageReloaded
       - editor:updated
       - page:deleted
-      - editor:init
 
   # User facing
   toggle:
