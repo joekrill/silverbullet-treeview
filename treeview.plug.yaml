@@ -6,10 +6,10 @@ functions:
   # API
   hide:
     path: "./treeview.ts:hideTree"
-  
+
   show:
     path: "./treeview.ts:showTree"
-  
+
   showIfEnabled:
     path: "./treeview.ts:showTreeIfEnabled"
     events:
