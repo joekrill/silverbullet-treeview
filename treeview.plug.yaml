@@ -15,9 +15,8 @@ functions:
     events:
       - editor:init
       - editor:pageLoaded
-      - editor:pageReloaded
-      - editor:updated
-      - page:deleted
+      - editor:pageSaved
+      - file:deleted
 
   # User facing
   toggle:
