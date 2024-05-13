@@ -33,79 +33,66 @@ const TREE_STATE_ID = "treeview";
  * invalid with the state. So if there is an error, this clears the state
  * and tries once more to create the tree.
  */
-function createTreeView(config, retries = 1) {
-  try {
-    return new SortableTree({
-      nodes: config.nodes,
-      disableSorting: !config.dragAndDrop.enabled,
-      element: document.getElementById(config.treeElementId),
-      stateId: TREE_STATE_ID,
-      initCollapseLevel: 0,
-      lockRootLevel: false,
+function createTreeView(config) {
+  return new SortableTree({
+    nodes: config.nodes,
+    disableSorting: !config.dragAndDrop.enabled,
+    element: document.getElementById(config.treeElementId),
+    stateId: TREE_STATE_ID,
+    initCollapseLevel: 0,
+    lockRootLevel: false,
 
-      /**
-       * @param {SortableTreeNode} movedNode
-       * @param {SortableTreeNode} targetParentNode
-       */
-      confirm: async (movedNode, targetParentNode) => {
-        const oldPrefix = movedNode.data.name;
-        const newPrefix = targetParentNode ? `${targetParentNode.data.name}/${movedNode.data.title}` : movedNode.data.title;
+    /**
+     * @param {SortableTreeNode} movedNode
+     * @param {SortableTreeNode} targetParentNode
+     */
+    confirm: async (movedNode, targetParentNode) => {
+      const oldPrefix = movedNode.data.name;
+      const newPrefix = targetParentNode ? `${targetParentNode.data.name}/${movedNode.data.title}` : movedNode.data.title;
 
-        if (oldPrefix === newPrefix) {
-          return;
-        }
+      if (oldPrefix === newPrefix) {
+        return;
+      }
 
-        const success = await syscall("system.invokeFunction", "index.renamePrefixCommand", {
-          oldPrefix,
-          newPrefix,
-          disableConfirmation: !config.dragAndDrop.confirmOnRename,
-        });
+      const success = await syscall("system.invokeFunction", "index.renamePrefixCommand", {
+        oldPrefix,
+        newPrefix,
+        disableConfirmation: !config.dragAndDrop.confirmOnRename,
+      });
 
-        if (success && config.currentPage.indexOf(oldPrefix) === 0) {
-          // If this renamed the current page, navigate to it at it's updated name.
-          await syscall("editor.navigate", config.currentPage.replace(oldPrefix, newPrefix), false, false);
-        }
+      if (success && config.currentPage.indexOf(oldPrefix) === 0) {
+        // If this renamed the current page, navigate to it at it's updated name.
+        await syscall("editor.navigate", config.currentPage.replace(oldPrefix, newPrefix), false, false);
+      }
 
-        return success;
-      },
+      return success;
+    },
 
-      onChange: async () => {
-        await syscall("system.invokeFunction", "treeview.show");
-      },
+    onChange: async () => {
+      await syscall("system.invokeFunction", "treeview.show");
+    },
 
-      /**
-       * @param {SortableTreeNode} node
-       */
-      onClick: async (_event, node) => {
-        await syscall("editor.navigate", node.data.name, false, false);
-      },
+    /**
+     * @param {SortableTreeNode} node
+     */
+    onClick: async (_event, node) => {
+      await syscall("editor.navigate", node.data.name, false, false);
+    },
 
-      /**
-       * @param {SortableTreeNode["data"]} data
-       * @returns {string}
-       */
-      renderLabel: (data) => `
-        <span
-          data-current-page="${JSON.stringify(data.isCurrentPage || false)}"
-          data-node-type="${data.nodeType}"
-          data-permission="${data.perm}"
-          title="${data.name}" >
-          ${data.title}
-        </span>`
-      ,
-    });
-
-  } catch (err) {
-    if (retries > 0) {
-      console.log("Retrying", err);
-      // SortableTree can throw an error if the state somehow becomes invalid.
-      // This attempts to recover from that.
-      sessionStorage.removeItem(`sortableTreeState-${TREE_STATE_ID}`);
-      return createTreeView(config, 0);
-    } else {
-      throw err;
-    }
-  }
+    /**
+     * @param {SortableTreeNode["data"]} data
+     * @returns {string}
+     */
+    renderLabel: (data) => `
+      <span
+        data-current-page="${JSON.stringify(data.isCurrentPage || false)}"
+        data-node-type="${data.nodeType}"
+        data-permission="${data.perm}"
+        title="${data.name}" >
+        ${data.title}
+      </span>`
+    ,
+  });
 }
 
 /**
