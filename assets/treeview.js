@@ -27,11 +27,6 @@ const TREE_STATE_ID = "treeview";
  * Initializes the TreeView's `SortableTree` instance.
  * @param {TreeViewConfig} config
  * @returns {SortableTree}
- *
- * There is currently a bug (still trying to narrow down the exact cause) in
- * which `new SortableTree` can throw an exception because of something
- * invalid with the state. So if there is an error, this clears the state
- * and tries once more to create the tree.
  */
 function createTreeView(config) {
   return new SortableTree({
