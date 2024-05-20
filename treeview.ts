@@ -114,7 +114,7 @@ export async function showTree() {
       <head>
         <link rel="stylesheet" href="/.client/main.css" />
         <style>
-          ${sortableTreeCss} 
+          ${sortableTreeCss}
           ${plugCss}
           ${customStyles ?? ""}
         </style>
@@ -139,7 +139,7 @@ export async function showTree() {
       </body>
       </html>`,
     `
-      // Workaound until showPanel provides the current theme 
+      // Workaound until showPanel provides the current theme
       document.documentElement.dataset.theme = ${JSON.stringify(theme)};
 
       ${sortableTreeJs}

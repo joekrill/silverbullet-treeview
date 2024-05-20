@@ -6,18 +6,17 @@ functions:
   # API
   hide:
     path: "./treeview.ts:hideTree"
-  
+
   show:
     path: "./treeview.ts:showTree"
-  
+
   showIfEnabled:
     path: "./treeview.ts:showTreeIfEnabled"
     events:
       - editor:init
       - editor:pageLoaded
-      - editor:pageReloaded
-      - editor:updated
-      - page:deleted
+      - editor:pageSaved
+      - file:deleted
 
   # User facing
   toggle:
