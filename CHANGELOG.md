@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.10] - 2024-04-20
+
+* Fix `sortable-tree` library throwing errors on state load (by [@MrMugame](https://github.com/joekrill/silverbullet-treeview/pull/14))
+* Use correct events
+
+
 ## [0.9] - 2024-03-19
 
 ### Fixed
