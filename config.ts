@@ -27,6 +27,7 @@ const treeViewConfigSchema = z.object({
     enabled: z.boolean().optional().default(true),
     confirmOnRename: z.boolean().optional().default(true),
   }).optional().default({}),
+  pageExcludeRegex: z.string().optional().default(""),
 });
 
 export type TreeViewConfig = z.infer<typeof treeViewConfigSchema>;
