@@ -51,6 +51,12 @@ treeview:
     # Set to false to disable the confirmation prompt shown when dragging and
     # dropping pages that causes them to be renamed/moved.
     confirmOnRename: true
+
+  # Regular Expression string to exclude pages from the tree
+  # - Any page that is all-caps: "^[A-Z]+$"
+  # - A specific set of pages: "^(?:SETTINGS|PLUGS|index|Library)$"
+  # - Any path containing Hidden: "Hidden" e.g. test/Hidden/page1
+  pageExcludeRegex: "^(?:SETTINGS|PLUGS|index|Library)$"
 ```
 
 ### Adding a top bar toggle icon

@@ -93,7 +93,7 @@ export async function showTree() {
     asset.readAsset(PLUG_NAME, "assets/icons/x-circle.svg"),
   ]);
 
-  const { currentPage, nodes } = await getPageTree();
+  const { currentPage, nodes } = await getPageTree(config.pageExcludeRegex);
   const customStyles = await getCustomStyles();
 
   const treeViewConfig = {
