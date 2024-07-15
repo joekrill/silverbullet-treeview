@@ -53,9 +53,10 @@ treeview:
     confirmOnRename: true
 
   # Regular Expression string to exclude pages from the tree
+  # Examples:
   # - Any page that is all-caps: "^[A-Z]+$"
   # - A specific set of pages: "^(?:SETTINGS|PLUGS|index|Library)$"
-  # - Any path containing Hidden: "Hidden" e.g. test/Hidden/page1
+  # - Any path containing Hidden (e.g. test/Hidden/page1): "Hidden" 
   pageExcludeRegex: "^(?:SETTINGS|PLUGS|index|Library)$"
 ```
 

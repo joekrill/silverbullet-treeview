@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11] - 2024-07-15
+
+### Added
+
+* Allow excluding pages based on a user-provided regex (by [@djm2k](https://github.com/joekrill/silverbullet-treeview/pull/16))
+
 ## [0.10] - 2024-04-20
+
+### Fixed
 
 * Fix `sortable-tree` library throwing errors on state load (by [@MrMugame](https://github.com/joekrill/silverbullet-treeview/pull/14))
 * Use correct events
