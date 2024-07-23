@@ -106,6 +106,7 @@ that are older than 7 days.
 
 1. Create a space script which defines the filter logic:
 
+    ````
     ```space-script
     silverbullet.registerFunction({name: "filterOldDailyNotes"}, async (page) => {
       if (!page.name.startsWith("Journal/Day/")) {
@@ -121,7 +122,8 @@ that are older than 7 days.
       return timeSince.days > 7;
     });
     ```
-
+    ````
+    
 2. Add the exclusion rule to the `SETTINGS` page:
 
     ```yaml 
