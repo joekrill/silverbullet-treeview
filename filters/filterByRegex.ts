@@ -12,7 +12,7 @@ export const filterPagesByRegex = (
 ) => {
   try {
     const regexFilter = new RegExp(rule);
-    return pages.filter(({ name }) => (regexFilter.test(name) !== negate));
+    return pages.filter(({ name }) => (regexFilter.test(name) === negate));
   } catch (err: unknown) {
     console.error(
       `${PLUG_DISPLAY_NAME}: filtering pages by regex "${rule}" failed`,
