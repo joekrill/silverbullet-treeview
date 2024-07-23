@@ -9,7 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-* Add prefix when using `console.error` to make it clear that the error originated from the TreeView plug. 
+* `exclusions` configuration option that allows multiple exclusions rules to filter what is displayed in the treeview based on regex, tags, or a custom space function.
+* Use a prefix when using `console.error` to make it clear that the error originated from the TreeView plug. 
+
+### Deprecated
+
+* The `pageExcludeRegex` configuration option is deprected in favor or using an exclusion rule of `type: "regex"`, instead.
 
 ## [0.11] - 2024-07-15
 

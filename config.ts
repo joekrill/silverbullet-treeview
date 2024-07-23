@@ -22,14 +22,75 @@ const POSITIONS = ["rhs", "lhs", "bhs", "modal"] as const;
 
 export type Position = typeof POSITIONS[number];
 
+/**
+ * Defines an exclusion rule based on a regular expression
+ */
+export const exclusionRuleByRegexSchema = z.object({
+  type: z.literal("regex"),
+  rule: z.string(),
+  negate: z.boolean().optional().default(false),
+});
+
+/**
+ * Defines an exclusion rule based on a list of tags
+ */
+export const exclusionRuleByTagsSchema = z.object({
+  type: z.literal("tags"),
+  tags: z.array(z.string()),
+  negate: z.boolean().optional().default(false),
+  attribute: z.enum(["tags", "itags", "tag"]).optional().default("tags"),
+});
+
+/**
+ * Defines an exclusion rule based on a regular expression
+ */
+export const exclusionRuleByFunctionSchema = z.object({
+  type: z.literal("space-function"),
+  name: z.string(),
+  negate: z.boolean().optional().default(false),
+});
+
+/**
+ * The schema for the tree view configuration read from the SETTINGS page.
+ */
 const treeViewConfigSchema = z.object({
+  /**
+   * Where to position the tree view in the UI.
+   */
   position: z.enum(POSITIONS).optional().default("lhs"),
+
+  /**
+   * The size of the treeview pane.
+   */
   size: z.number().gt(0).optional().default(1),
+
+  /**
+   * Drag-and-drop options
+   */
   dragAndDrop: z.object({
+    /**
+     * Whether dragging/dropping functionality is
+     */
     enabled: z.boolean().optional().default(true),
+    /**
+     * True to confirm on rename actions by showing a popup prompt.
+     */
     confirmOnRename: z.boolean().optional().default(true),
   }).optional().default({}),
+
+  /**
+   * @deprecated
+   */
   pageExcludeRegex: z.string().optional().default(""),
+
+  /**
+   * A list of exclusion rules to apply.
+   */
+  exclusions: z.array(z.discriminatedUnion("type", [
+    exclusionRuleByRegexSchema,
+    exclusionRuleByTagsSchema,
+    exclusionRuleByFunctionSchema,
+  ])).optional(),
 });
 
 export type TreeViewConfig = z.infer<typeof treeViewConfigSchema>;

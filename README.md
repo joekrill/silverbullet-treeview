@@ -52,11 +52,34 @@ treeview:
     # dropping pages that causes them to be renamed/moved.
     confirmOnRename: true
 
-  # Regular Expression string to exclude pages from the tree
-  # Examples:
-  # - Any page that is all-caps: "^[A-Z]+$"
-  # - A specific set of pages: "^(?:SETTINGS|PLUGS|index|Library)$"
-  # - Any path containing Hidden (e.g. test/Hidden/page1): "Hidden" 
+  # An array of exclusion rules that will exclude pages from being 
+  # displayed in the sidebar.
+  exclusions:
+  
+  # Filter by regular expression:
+  - type: "regex"
+    # Regular Expression string to exclude pages from the tree
+    # Examples:
+    # - Any page that is all-caps: "^[A-Z]+$"
+    # - A specific set of pages: "^(?:SETTINGS|PLUGS|index|Library)$"
+    # - Any path containing Hidden (e.g. test/Hidden/page1): "Hidden" 
+    rule: "^(?:SETTINGS|PLUGS|index|Library)$"
+    # Optional: set to true to negate the rule, only showing pages that match this regex.
+    negate: false
+
+  # Filter by page tags:
+  - type: "tags"
+    tags: ["meta"]
+    # Optional: set to true to negate the rule, only showing pages that include any of the tags.
+    negate: false
+
+  # Filter by a space function (see "Filtering by custom function example", below)
+  - type: "space-function"
+    name: "myCustomFilterFunction"
+    # Optional: set to true to negate the rule, only showing pages for which the function returns false
+    negate: false
+
+  # This setting has been deprected - use an `exclusion` rule of `type: regec` instead.
   pageExcludeRegex: "^(?:SETTINGS|PLUGS|index|Library)$"
 ```
 
@@ -73,6 +96,41 @@ actionButtons:
   command: "{[Tree View: Toggle]}"
   description: "Toggle Tree View"
 ```
+
+### Filtering by custom function example
+
+Using an exclusion rule with `type: "space-function"` allows you to write your own logic around which pages to show in the tree view. The function will be called with the page object as the first and only parameter.
+
+As an example, we could create a function that excludes daily journal pages 
+that are older than 7 days.
+
+1. Create a space script which defines the filter logic:
+
+    ```space-script
+    silverbullet.registerFunction({name: "filterOldDailyNotes"}, async (page) => {
+      if (!page.name.startsWith("Journal/Day/")) {
+        // If it's not a daily journal page, don't exclude it.
+        return false;
+      }
+
+      // Extract the date part from the page name and parse it
+      const datePart = page.name.split("/")[2];
+      const parsedDate = Temporal.PlainDate.from(datePart);
+      const timeSince = Temporal.Now.plainDateISO().since(parsedDate, { largestUnit: 'days' });
+      
+      return timeSince.days > 7;
+    });
+    ```
+
+2. Add the exclusion rule to the `SETTINGS` page:
+
+    ```yaml 
+    treeview:
+      exclusions:
+      - type: "space-function"
+        name: "filterOldDailyNotes"
+    ```
+
 
 ## Build
 

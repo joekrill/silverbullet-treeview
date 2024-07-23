@@ -1,6 +1,10 @@
-import { editor, space } from "$sb/syscalls.ts";
+import { editor, system } from "$sb/syscalls.ts";
 import { PageMeta } from "$sb/types.ts";
-import { PLUG_DISPLAY_NAME } from "./config.ts";
+import { PLUG_DISPLAY_NAME, TreeViewConfig } from "./config.ts";
+import { filterPagesByFunction } from "./filters/filterByFunction.ts";
+import { filterPagesByRegex } from "./filters/filterByRegex.ts";
+import { filterPagesByTags } from "./filters/filterByTags.ts";
+
 export type NodeData = {
   /**
    * The complete page or folder name.
@@ -37,23 +41,51 @@ export type TreeNode = {
 /**
  * Generates a TreeNode array from the list of pages in the current space.
  */
-export async function getPageTree(excludeRegex: string) {
+export async function getPageTree(config: TreeViewConfig) {
   const currentPage = await editor.getCurrentPage();
-  let pages = await space.listPages();
+  // The index plug's `queryObjects` function is used so that we include the
+  // page tags -- `space.listPages()` does not populate those attributes.
+  let pages = await system.invokeFunction(
+    "index.queryObjects",
+    "page",
+  ) as PageMeta[];
+
   const root = { nodes: [] as TreeNode[] };
 
-  if (excludeRegex !== "") {
-    try {
-      const pageRegExp = new RegExp(excludeRegex);
-      pages = pages.filter((o) =>
-        // exclude pages which match the regex
-        !pageRegExp.test(o.name)
-      );
-    } catch (err: unknown) {
-      console.error(
-        `${PLUG_DISPLAY_NAME}: filtering by pageExcludeRegex failed`,
-        err,
-      );
+  if (config.pageExcludeRegex) {
+    const deprecationWarning = `${PLUG_DISPLAY_NAME}:
+\`pageExcludeRegex\` setting is deprecated. Please use \`exclusions\`:
+
+\`\`\`yaml
+treeview: 
+  exclusions:
+  - type: regex
+    rule: "${config.pageExcludeRegex}"
+\`\`\`
+    `;
+    console.warn(deprecationWarning);
+    pages = filterPagesByRegex(pages, {
+      rule: config.pageExcludeRegex,
+      negate: false,
+    });
+  }
+
+  if (config.exclusions) {
+    for (const exclusion of config.exclusions) {
+      switch (exclusion.type) {
+        case "regex": {
+          pages = filterPagesByRegex(pages, exclusion);
+          break;
+        }
+        case "tags": {
+          pages = filterPagesByTags(pages, exclusion);
+          break;
+        }
+        case "space-function": {
+          pages = await filterPagesByFunction(pages, exclusion);
+          break;
+        }
+      }
     }
   }
 
