@@ -1,0 +1,33 @@
+{
+  "version": "3",
+  "remote": {
+    "https://deno.land/x/silverbullet@0.8.2/lib/command.ts": "1b131c5da91f0bdb8c58eb3058befc4f5861827a38d9196a08026206f51379b1",
+    "https://deno.land/x/silverbullet@0.8.2/lib/crypto.ts": "a90267ed8eb936da3ee5d395b00be8978699007ec95f84d81720770a5fd819a0",
+    "https://deno.land/x/silverbullet@0.8.2/lib/web.ts": "e5950585bcfd711b1d6f1a4cb81b6a6c87323a6576573d8764d6b10fd1b69b79",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/lib/page_ref.ts": "de5e4ecee3ad28f909c74e512b6c2804f4d9fd4df8278c52a8c0cc4a05f7a238",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/lib/query.ts": "20bba1579607f094ffb5bed44b176f6ebc0b73184085ea11542eb7e4127018f3",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/lib/query_expression.ts": "2e5f078792365a916f0ffe9ab75de092efcc3f2f398f292709e3c722755b6a7f",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/lib/tree.ts": "e4e8cd4f2d409e6bff4fefef25244504cde5788ac4f3c748301c31d35c0fa802",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/syscall.ts": "e92c9e4b25808cf3d2a193d70bab7194fc5f5e8697a20dcd72b4fc3f3beb0e8e",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/syscalls.ts": "f86dddaa420498e820b3feb11431f33852837d816166ced3530dd41a33914d3e",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/syscalls/asset.ts": "7598702fb497bf69e5522d05556e9887ce1d95ada47c10d8386de29bc7535262",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/syscalls/clientStore.ts": "e623682ccd83d3f3155fd7f5062a716e1a0422abebb68f71613e284ca705f807",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/syscalls/code_widget.ts": "2d4c4f2393a860496209c057c3eef4c9b8ceb49b34e433958b331b269a1afc25",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/syscalls/datastore.ts": "cb51f7ae55509cad3804c7593564f5142f11a966a676d6ec2484150060d2deca",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/syscalls/debug.ts": "b374379d16c1ce523a56d29353a484ed7d7b633c167bb82350f78fa779d4b72e",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/syscalls/decoration.ts": "197d0b5dee5a4501bc08d94cb7f28db8dbbcd0dd0ae7b375f616961aef1dda56",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/syscalls/editor.ts": "6d3609f9daba2cc6018ef415d06c19a6c40e5d8b08a36cfac74242a565528974",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/syscalls/event.ts": "46e7449b166bfed4df68db034244fc638bd189a1d1dacf3ae451fbe5ac0f5161",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/syscalls/language.ts": "6a038b674db294f5c09bb5ba8bf44c36301b04b4717a4d53ab7eef8594d81574",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/syscalls/markdown.ts": "51a0afc48beb4b67ac20b3e2e0166726b05170da0f0f396215c940af6eec3aa4",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/syscalls/mq.ts": "5a638511bea78f2175e1002502184a9a8f545ec55cc3f5e34b3df3221adf81c5",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/syscalls/shell.ts": "2c6329f7236405682065ab55fd5c0ec5fe354bdf67e040dd651492c4b64de998",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/syscalls/space.ts": "c204858c83beec3ace603b11fae2ff487e053c2a8182f725690470a07ea27cab",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/syscalls/sync.ts": "1a2430bcfa7f9e1d6d8c99a90a0e1a7e5a2075b11b0916e9e8facd8ff36767db",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/syscalls/system.ts": "5a6fb1db99656087bc73cfa16755e6b579e40d1b6d5e71647e7f91e9b56d1148",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/syscalls/template.ts": "92f4dfd8b76838852a6ea3964b3acd24bc66a38bcf59727190ea149523036591",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/syscalls/yaml.ts": "db850fe538ae924ecda4af269af5f02abacd11e020893043f828796bd2d7833b",
+    "https://deno.land/x/silverbullet@0.8.2/plug-api/types.ts": "50ef0307df24ebdf6e684e7c41ba34e58f22d40a42344f96a6a9403c96adcace",
+    "https://deno.land/x/silverbullet@0.8.2/web/change.ts": "bc3204e4f34f86edd11b0fcf3fdfc1e8599cb08ca4eebe7f22451195b74440ef"
+  }
+}

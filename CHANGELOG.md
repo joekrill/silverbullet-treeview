@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.12] - 2024-07-23
+
 ### Added
 
 * `exclusions` configuration option that allows multiple exclusions rules to filter what is displayed in the treeview based on regex, tags, or a custom space function.
