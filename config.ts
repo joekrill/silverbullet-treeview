@@ -8,6 +8,8 @@ import { z, ZodError } from "zod";
  */
 export const PLUG_NAME = "treeview";
 
+export const PLUG_DISPLAY_NAME = "TreeView Plug";
+
 /**
  * The key used to save the current enabled state of the treeview.
  */

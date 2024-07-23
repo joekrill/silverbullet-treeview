@@ -1,5 +1,6 @@
 import { editor, space } from "$sb/syscalls.ts";
 import { PageMeta } from "$sb/types.ts";
+import { PLUG_DISPLAY_NAME } from "./config.ts";
 export type NodeData = {
   /**
    * The complete page or folder name.
@@ -49,7 +50,10 @@ export async function getPageTree(excludeRegex: string) {
         !pageRegExp.test(o.name)
       );
     } catch (err: unknown) {
-      console.error("filtering by pageExcludeRegex failed", err);
+      console.error(
+        `${PLUG_DISPLAY_NAME}: filtering by pageExcludeRegex failed`,
+        err,
+      );
     }
   }
 

@@ -3,6 +3,7 @@ import { getPageTree } from "./api.ts";
 import {
   getCustomStyles,
   isTreeViewEnabled,
+  PLUG_DISPLAY_NAME,
   PLUG_NAME,
   Position,
   setTreeViewEnabled,
@@ -53,7 +54,7 @@ export async function showTreeIfEnabled() {
       return await showTree();
     }
   } catch (err) {
-    console.error("showTreeIfEnabled failed", err);
+    console.error(`${PLUG_DISPLAY_NAME}: showTreeIfEnabled failed`, err);
   }
 }
 

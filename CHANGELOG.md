@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+* Add prefix when using `console.error` to make it clear that the error originated from the TreeView plug. 
+
 ## [0.11] - 2024-07-15
 
 ### Added
