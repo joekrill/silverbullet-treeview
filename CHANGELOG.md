@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* Nothing since 0.14
+
+## [0.14] - 2024-07-29
+
+### Changed
+
+* Removed temporary workaround for injecting the current theme in the tree view panel (no longer needed)
+
 ## [0.13] - 2024-07-23
 
 ### Fixed

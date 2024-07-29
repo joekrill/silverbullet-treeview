@@ -10,7 +10,6 @@ import {
 } from "./config.ts";
 import { supportsPageRenaming } from "./compatability.ts";
 import { getPlugConfig } from "./config.ts";
-import { getSilverBulletTheme } from "./config.ts";
 
 /**
  * Keeps track of the current rendered position of the treeview.
@@ -62,7 +61,6 @@ export async function showTreeIfEnabled() {
  * Shows the treeview and sets it to enabled.
  */
 export async function showTree() {
-  const theme = await getSilverBulletTheme();
   const config = await getPlugConfig();
 
   if (currentPosition && config.position !== currentPosition) {
@@ -111,41 +109,31 @@ export async function showTree() {
     config.position,
     config.size,
     `
-      <html>
-      <head>
-        <link rel="stylesheet" href="/.client/main.css" />
-        <style>
-          ${sortableTreeCss}
-          ${plugCss}
-          ${customStyles ?? ""}
-        </style>
-      </head>
-      <body>
-        <div class="treeview-root">
-          <div class="treeview-header">
-            <div class="treeview-actions">
-              <div class="treeview-actions-left">
-                <button type="button" data-treeview-action="expand-all" title="Expand all">${iconFolderPlus}</button>
-                <button type="button" data-treeview-action="collapse-all" title="Collapse all">${iconFolderMinus}</button>
-                <button type="button" data-treeview-action="reveal-current-page" title="Reveal current page">${iconNavigation2}</button>
-                <button type="button" data-treeview-action="refresh" title="Refresh treeview">${iconRefresh}</button>
-              </div>
-              <div class="treeview-actions-right">
-                <button type="button" data-treeview-action="close-panel" title="Close tree">${iconXCircle}</button>
-              </div>
+      <link rel="stylesheet" href="/.client/main.css" />
+      <style>
+        ${sortableTreeCss}
+        ${plugCss}
+        ${customStyles ?? ""}
+      </style>
+      <div class="treeview-root">
+        <div class="treeview-header">
+          <div class="treeview-actions">
+            <div class="treeview-actions-left">
+              <button type="button" data-treeview-action="expand-all" title="Expand all">${iconFolderPlus}</button>
+              <button type="button" data-treeview-action="collapse-all" title="Collapse all">${iconFolderMinus}</button>
+              <button type="button" data-treeview-action="reveal-current-page" title="Reveal current page">${iconNavigation2}</button>
+              <button type="button" data-treeview-action="refresh" title="Refresh treeview">${iconRefresh}</button>
+            </div>
+            <div class="treeview-actions-right">
+              <button type="button" data-treeview-action="close-panel" title="Close tree">${iconXCircle}</button>
             </div>
           </div>
-          <div id="${treeViewConfig.treeElementId}"></div>
         </div>
-      </body>
-      </html>`,
+        <div id="${treeViewConfig.treeElementId}"></div>
+      </div>`,
     `
-      // Workaound until showPanel provides the current theme
-      document.documentElement.dataset.theme = ${JSON.stringify(theme)};
-
       ${sortableTreeJs}
       ${plugJs}
-
       initializeTreeViewPanel(${JSON.stringify(treeViewConfig)});
     `,
   );

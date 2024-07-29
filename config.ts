@@ -146,11 +146,6 @@ export async function setTreeViewEnabled(value: boolean) {
   return await clientStore.set(ENABLED_STATE_KEY, value);
 }
 
-export async function getSilverBulletTheme() {
-  const darkMode = await clientStore.get("darkMode");
-  return darkMode ? "dark" : "light";
-}
-
 export async function getCustomStyles() {
   const customStyles = await editor.getUiOption("customStyles") as
     | string

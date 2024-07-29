@@ -89,7 +89,9 @@ treeview:
     }
   }
 
-  pages.sort((a, b) => a.name.localeCompare(b.name)).forEach((page) => {
+  pages.sort((a, b) => a.name.localeCompare(b.name));
+
+  pages.forEach((page) => {
     page.name.split("/").reduce((parent, title, currentIndex, parts) => {
       const isLeaf = parts.length - 1 === currentIndex;
       let node = parent.nodes.find((child) => child.data.title === title);
