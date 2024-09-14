@@ -84,6 +84,7 @@ function createTreeView(config) {
         data-current-page="${JSON.stringify(data.isCurrentPage || false)}"
         data-node-type="${data.nodeType}"
         data-permission="${data.perm}"
+        role="button"
         title="${data.name}" >
         ${data.title}
       </span>`
