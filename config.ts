@@ -65,6 +65,11 @@ const treeViewConfigSchema = z.object({
   size: z.number().gt(0).optional().default(1),
 
   /**
+   * Expand all nodes when tree is initialized.
+   */
+  expandAllAtInit: z.boolean().optional().default(false),
+
+  /**
    * Drag-and-drop options
    */
   dragAndDrop: z.object({

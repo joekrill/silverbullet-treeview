@@ -1,5 +1,5 @@
 import { asset, editor, system } from "$sb/syscalls.ts";
-import { getPageTree } from "./api.ts";
+import { getPageTree, TreeShortcutPagesType } from "./api.ts";
 import {
   getCustomStyles,
   isTreeViewEnabled,
@@ -15,6 +15,8 @@ import { getPlugConfig } from "./config.ts";
  * Keeps track of the current rendered position of the treeview.
  */
 let currentPosition: Position | undefined;
+let treeShortcuts: TreeShortcutPagesType | undefined;
+
 
 /**
  * Toggles the treeview and it's preferred state.
@@ -25,6 +27,26 @@ export async function toggleTree() {
     await showTree();
   } else {
     await hideTree();
+  }
+}
+
+/**
+ * Navigate to next node in tree.
+ */
+export async function navigateToNextNode() {
+  if (treeShortcuts)
+  {
+    await editor.navigate(treeShortcuts.nextPage, false, false);
+  }
+}
+
+/**
+ * Navigate to prev node in tree.
+ */
+export async function navigateToPrevNode() {
+  if (treeShortcuts)
+  {
+    await editor.navigate(treeShortcuts.prevPage, false, false);
   }
 }
 
@@ -92,13 +114,16 @@ export async function showTree() {
     asset.readAsset(PLUG_NAME, "assets/icons/x-circle.svg"),
   ]);
 
-  const { currentPage, nodes } = await getPageTree(config);
+  const {nodes, currentPage, treeShortcutPages} = await getPageTree(config);
+  treeShortcuts = treeShortcutPages;
+
   const customStyles = await getCustomStyles();
 
   const treeViewConfig = {
     nodes,
     currentPage,
     treeElementId: "treeview-tree",
+    expandAllAtInit: config.expandAllAtInit,
     dragAndDrop: {
       ...config.dragAndDrop,
       enabled: config.dragAndDrop.enabled && await supportsPageRenaming(),

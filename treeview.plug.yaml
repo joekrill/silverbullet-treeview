@@ -25,3 +25,17 @@ functions:
       name: "Tree View: Toggle"
       key: Ctrl-alt-b
       mac: Cmd-alt-b
+
+  navigateNextNode:
+    path: "./treeview.ts:navigateToNextNode"
+    command:
+      name: "Tree View: Navigate to Next Node"
+      key: Ctrl-alt-n
+      mac: Cmd-alt-n
+
+  navigatePrevNode:
+    path: "./treeview.ts:navigateToPrevNode"
+    command:
+      name: "Tree View: Navigate to Previous Node"
+      key: Ctrl-alt-p
+      mac: Cmd-alt-p

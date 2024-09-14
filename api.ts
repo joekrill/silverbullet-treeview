@@ -38,6 +38,40 @@ export type TreeNode = {
   nodes: TreeNode[];
 };
 
+export type TreeShortcutPagesType = {
+  prevPage: string;
+  nextPage: string;
+};
+
+/* Clamp a number within bounds. */
+function clamp(val: number, low: number, high: number)
+{
+  if (val < low)
+  {
+    return low;
+  } else if (val > high)
+  {
+    return high;
+  }
+  else {
+    return val;
+  }
+}
+
+/**
+ * Find pages that treeview keyboard shortcuts will point to.
+ */
+function findTreeShortcutPages(pages: PageMeta[], currentPage: PageMeta): TreeShortcutPagesType {
+
+  // Get index of current page.
+  const currentPageIndex: number = pages.findIndex(p => p.name === currentPage);
+
+  return {
+    prevPage: pages[clamp(currentPageIndex - 1, 0, pages.length - 1)].name,
+    nextPage: pages[clamp(currentPageIndex + 1, 0, pages.length - 1)].name,
+  }
+}
+
 /**
  * Generates a TreeNode array from the list of pages in the current space.
  */
@@ -57,7 +91,7 @@ export async function getPageTree(config: TreeViewConfig) {
 \`pageExcludeRegex\` setting is deprecated. Please use \`exclusions\`:
 
 \`\`\`yaml
-treeview: 
+treeview:
   exclusions:
   - type: regex
     rule: "${config.pageExcludeRegex}"
@@ -90,6 +124,8 @@ treeview:
   }
 
   pages.sort((a, b) => a.name.localeCompare(b.name));
+
+  const treeShortcutPages: TreeShortcutPagesType = findTreeShortcutPages(pages, currentPage);
 
   pages.forEach((page) => {
     page.name.split("/").reduce((parent, title, currentIndex, parts) => {
@@ -144,6 +180,7 @@ treeview:
 
   return {
     nodes: root.nodes,
-    currentPage,
+    currentPage: currentPage,
+    treeShortcutPages: treeShortcutPages,
   };
 }

@@ -14,6 +14,7 @@
  * @type {Object}
  * @property {string} currentPage - the current page shown in SilverBullet.
  * @property {TreeNode[]} nodes - a tree of all pages in the current space.
+ * @property {boolean} expandAllAtInit - expand all nodes on tree initialization.
  * @property {Object} dragAndDrop - drag and drop related config
  * @property {boolean} dragAndDrop.enabled - true if drag and drop is enabled
  * @property {boolean} dragAndDrop.confirmOnRename - true if a confirmation should be shown
@@ -131,6 +132,10 @@ function initializeTreeViewPanel(config) {
     }
 
     return false;
+  }
+
+  if (config.expandAllAtInit) {
+    handleAction("expand-all");
   }
 
   handleAction("reveal-current-page");
