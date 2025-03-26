@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-* Nothing since 0.14
+* Nothing since 0.15
+
+## [0.15] - 2025-03-26
+
+### Changed
+
+* Upgrade plug to modern standards to work with both SilverBullet 0.10.x and v2. (by [@zefhemel](https://github.com/joekrill/silverbullet-treeview/pull/29))
 
 ## [0.14] - 2024-07-29
 
