@@ -1,9 +1,0 @@
-{
-  "importMap": "import_map.json",
-  "tasks": {
-    "build": "silverbullet plug:compile --info --importmap import_map.json  treeview.plug.yaml",
-    "debug": "silverbullet plug:compile --info --debug --importmap import_map.json  treeview.plug.yaml",
-    "watch": "silverbullet plug:compile treeview.plug.yaml -w --debug --importmap import_map.json",
-    "test": "deno test -A --unstable-kv  --unstable-worker-options"
-  }
-}

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { exclusionRuleByTagsSchema } from "../config.ts";
-import { PageMeta } from "$sb/types.ts";
+import { PageMeta } from "@silverbulletmd/silverbullet/types";
 
 export type FilterPagesByTagsOptions = z.infer<
   typeof exclusionRuleByTagsSchema

@@ -1,5 +1,8 @@
-import { clientStore, editor } from "$sb/syscalls.ts";
-import { readSetting } from "$sb/lib/settings_page.ts";
+import {
+  clientStore,
+  editor,
+  system,
+} from "@silverbulletmd/silverbullet/syscalls";
 import { z, ZodError } from "zod";
 
 /**
@@ -124,7 +127,7 @@ async function showConfigErrorNotification(error: unknown) {
 let configErrorShown = false;
 
 export async function getPlugConfig(): Promise<TreeViewConfig> {
-  const userConfig = await readSetting(PLUG_NAME);
+  const userConfig = await system.getSpaceConfig("treeview", {});
 
   try {
     return treeViewConfigSchema.parse(userConfig || {});

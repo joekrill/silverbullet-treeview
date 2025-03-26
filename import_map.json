@@ -1,6 +1,0 @@
-{
-  "imports": {
-    "$sb/": "https://deno.land/x/silverbullet@0.8.2/plug-api/",
-    "zod": "https://deno.land/x/zod@v3.23.8/mod.ts"
-  }
-}
