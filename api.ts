@@ -1,5 +1,5 @@
-import { editor, system } from "$sb/syscalls.ts";
-import { PageMeta } from "$sb/types.ts";
+import { editor, system } from "@silverbulletmd/silverbullet/syscalls";
+import { PageMeta } from "@silverbulletmd/silverbullet/types";
 import { PLUG_DISPLAY_NAME, TreeViewConfig } from "./config.ts";
 import { filterPagesByFunction } from "./filters/filterByFunction.ts";
 import { filterPagesByRegex } from "./filters/filterByRegex.ts";
@@ -46,8 +46,9 @@ export async function getPageTree(config: TreeViewConfig) {
   // The index plug's `queryObjects` function is used so that we include the
   // page tags -- `space.listPages()` does not populate those attributes.
   let pages = await system.invokeFunction(
-    "index.queryObjects",
+    "index.queryLuaObjects",
     "page",
+    {},
   ) as PageMeta[];
 
   const root = { nodes: [] as TreeNode[] };

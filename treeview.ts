@@ -1,4 +1,4 @@
-import { asset, editor, system } from "$sb/syscalls.ts";
+import { asset, editor, system } from "@silverbulletmd/silverbullet/syscalls";
 import { getPageTree } from "./api.ts";
 import {
   getCustomStyles,
@@ -101,7 +101,7 @@ export async function showTree() {
     treeElementId: "treeview-tree",
     dragAndDrop: {
       ...config.dragAndDrop,
-      enabled: config.dragAndDrop.enabled && await supportsPageRenaming(),
+      enabled: config.dragAndDrop.enabled,
     },
   };
 

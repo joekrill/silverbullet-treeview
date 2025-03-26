@@ -1,4 +1,4 @@
-import { PageMeta } from "$sb/types.ts";
+import { PageMeta } from "@silverbulletmd/silverbullet/types";
 import { z } from "zod";
 import { exclusionRuleByRegexSchema, PLUG_DISPLAY_NAME } from "../config.ts";
 

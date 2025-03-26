@@ -1,7 +1,7 @@
-import { PageMeta } from "$sb/types.ts";
+import { PageMeta } from "@silverbulletmd/silverbullet/types";
 import { z } from "zod";
 import { exclusionRuleByFunctionSchema, PLUG_DISPLAY_NAME } from "../config.ts";
-import { system } from "$sb/syscalls.ts";
+import { system } from "@silverbulletmd/silverbullet/syscalls";
 
 export type FilterPagesByFunctionOptions = z.infer<
   typeof exclusionRuleByFunctionSchema
