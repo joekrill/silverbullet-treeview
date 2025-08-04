@@ -171,14 +171,30 @@ Note: space functions are not supported in SilverBullet v2 yet, so the `space-fu
 
 ![Screenshot](screenshot-action-button.png)
 
-You can add add a button to the top bar that will toggle the tree view by adding
-the following to your `actionButtons` array in your `SETTINGS` page:
+You can also add add a button to the top bar that will toggle the tree view.
+
+#### SilverBullet v1
+On SilverBullet v1, this is done by adding the following to your `actionButtons` array in your `SETTINGS` page:
 
 ```yaml
 actionButtons:
 - icon: sidebar
   command: "{[Tree View: Toggle]}"
   description: "Toggle Tree View"
+```
+
+#### SilverBullet v2
+
+On SilverBullet v2, this is done by adding the following `actionButton.define` in your `CONFIG` page:
+
+```lua
+actionButton.define {
+  icon = "sidebar",
+  description = "Toggle Tree View",
+  run = function()
+    editor.invokeCommand("Tree View: Toggle")
+  end
+}
 ```
 
 ### Filtering by custom function example
