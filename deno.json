@@ -4,7 +4,7 @@
     "zod": "https://deno.land/x/zod@v3.23.8/mod.ts"
   },
   "tasks": {
-    "build": "silverbullet plug:compile -c deno.json treeview.plug.yaml",
+    "build": "deno run -A https://github.com/silverbulletmd/silverbullet/releases/download/edge/plug-compile.js -c deno.json treeview.plug.yaml",
     "debug": "silverbullet plug:compile --info --debug -c deno.json treeview.plug.yaml",
     "watch": "silverbullet plug:compile treeview.plug.yaml -w --debug -c deno.json",
     "test": "deno test -A --unstable-kv  --unstable-worker-options"

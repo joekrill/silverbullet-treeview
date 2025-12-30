@@ -26,6 +26,20 @@ const POSITIONS = ["rhs", "lhs", "bhs", "modal"] as const;
 export type Position = typeof POSITIONS[number];
 
 /**
+ * Defines the allowed fields for sorting.
+ */
+const SORT_OPTIONS = ["name", "created", "lastModified"] as const;
+
+export type SortBy = typeof SORT_OPTIONS[number];
+
+/**
+ * Valid directions for sorting.
+ */
+const SORT_ORDERS = ["asc", "desc"] as const;
+
+export type SortOrder = typeof SORT_ORDERS[number];
+
+/**
  * Defines an exclusion rule based on a regular expression
  */
 export const exclusionRuleByRegexSchema = z.object({
@@ -94,6 +108,17 @@ const treeViewConfigSchema = z.object({
     exclusionRuleByTagsSchema,
     exclusionRuleByFunctionSchema,
   ])).optional(),
+
+  /**
+   *  Sorting options.
+   */
+  sortBy: z.enum(SORT_OPTIONS).optional().default("name"),
+  sortOrder: z.enum(SORT_ORDERS).optional().default("asc"),
+
+  /**
+   * Group directories above files.
+   */
+  groupDirectoriesFirst: z.boolean().optional().default(false),
 });
 
 export type TreeViewConfig = z.infer<typeof treeViewConfigSchema>;

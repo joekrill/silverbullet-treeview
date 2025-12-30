@@ -22,6 +22,10 @@ export type NodeData = {
    */
   isCurrentPage?: boolean;
 
+  created: string;
+
+  lastModified: string;
+
   nodeType: string;
 };
 
@@ -58,7 +62,7 @@ export async function getPageTree(config: TreeViewConfig) {
 \`pageExcludeRegex\` setting is deprecated. Please use \`exclusions\`:
 
 \`\`\`yaml
-treeview: 
+treeview:
   exclusions:
   - type: regex
     rule: "${config.pageExcludeRegex}"
@@ -90,7 +94,6 @@ treeview:
     }
   }
 
-  pages.sort((a, b) => a.name.localeCompare(b.name));
 
   pages.forEach((page) => {
     page.name.split("/").reduce((parent, title, currentIndex, parts) => {
@@ -133,6 +136,8 @@ treeview:
             isCurrentPage: currentPage === name,
             name,
             nodeType: "folder",
+            created: "",
+            lastModified: "",
           },
           nodes: [],
         };
@@ -142,6 +147,55 @@ treeview:
       return node;
     }, root);
   });
+
+  const sortBy = (config as any).sortBy ?? "name"; // "name" | "created" | "lastModified"
+  const sortOrder = (config as any).sortOrder ?? "asc"; // "asc" | "desc"
+  const groupDirsFirst = (config as any).groupDirectoriesFirst ?? false;
+  const dir = sortOrder === "asc" ? 1 : -1;
+
+  function getKey(node: TreeNode): string | number {
+    const d = node.data as any;
+    switch (sortBy) {
+      case "created":
+        return d.created ?? 0;
+      case "modified":
+        return d.lastModified ?? 0;
+      case "title":
+        return (d.title ?? d.name ?? "").toString().toLowerCase();
+      case "name":
+      default:
+        return (d.name ?? "").toString().toLowerCase();
+    }
+  }
+
+  function sortTreeNodes(nodes: TreeNode[]) {
+    if (!nodes?.length) return;
+
+    nodes.sort((a, b) => {
+      if (groupDirsFirst && a.data.nodeType !== b.data.nodeType) {
+        return a.data.nodeType === "folder" ? -1 : 1;
+      }
+
+      const ka = getKey(a);
+      const kb = getKey(b);
+
+      if (ka === kb) {
+        return dir * a.data.name.localeCompare(b.data.name);
+      }
+
+      if (typeof ka === "number" && typeof kb === "number") {
+        return dir * (ka - kb);
+      }
+
+      return dir * String(ka).localeCompare(String(kb));
+    });
+
+    for (const n of nodes) {
+      sortTreeNodes(n.nodes);
+    }
+  }
+
+  sortTreeNodes(root.nodes);
 
   return {
     nodes: root.nodes,
