@@ -19,6 +19,11 @@ export const PLUG_DISPLAY_NAME = "TreeView Plug";
 const ENABLED_STATE_KEY = "enableTreeView";
 
 /**
+ * The key used to save the current size override of the treeview.
+ */
+const SIZE_OVERRIDE_KEY = "treeViewSizeOverride";
+
+/**
  * The possible position where the treeview can be rendered.
  */
 const POSITIONS = ["rhs", "lhs", "bhs", "modal"] as const;
@@ -56,6 +61,11 @@ export const exclusionRuleByFunctionSchema = z.object({
 /**
  * The schema for the tree view configuration read from the SETTINGS page.
  */
+/**
+ * Sort order options
+ */
+const SORT_ORDERS = ["asc", "desc"] as const;
+
 const treeViewConfigSchema = z.object({
   /**
    * Where to position the tree view in the UI.
@@ -66,6 +76,27 @@ const treeViewConfigSchema = z.object({
    * The size of the treeview pane.
    */
   size: z.number().gt(0).optional().default(1),
+
+  /**
+   * Sorting options
+   */
+  sort: z.object({
+    /**
+     * Sort order: "asc" (A-Z) or "desc" (Z-A)
+     */
+    order: z.enum(SORT_ORDERS).optional().default("asc"),
+    /**
+     * Position weights for node types. Lower values sort first.
+     * Equal weights sort alphabetically together.
+     * Defaults: folders=1, folderNotes=1, pages=2, attachments=2
+     */
+    positions: z.object({
+      folders: z.number().optional().default(1),
+      folderNotes: z.number().optional().default(1),
+      pages: z.number().optional().default(2),
+      attachments: z.number().optional().default(2),
+    }).optional().default({}),
+  }).optional().default({}),
 
   /**
    * Drag-and-drop options
@@ -79,6 +110,25 @@ const treeViewConfigSchema = z.object({
      * True to confirm on rename actions by showing a popup prompt.
      */
     confirmOnRename: z.boolean().optional().default(true),
+  }).optional().default({}),
+
+  /**
+   * Whether to automatically reveal and scroll to the current page on load.
+   */
+  revealOnLoad: z.boolean().optional().default(true),
+
+  /**
+   * Attachment display options
+   */
+  attachments: z.object({
+    /**
+     * Whether to show attachments in the tree
+     */
+    enabled: z.boolean().optional().default(false),
+    /**
+     * Regex pattern for file extensions to exclude (e.g., "\\.(jpg|png|gif)$")
+     */
+    extensionExcludeRegex: z.string().optional().default(""),
   }).optional().default({}),
 
   /**
@@ -147,6 +197,14 @@ export async function isTreeViewEnabled() {
 
 export async function setTreeViewEnabled(value: boolean) {
   return await clientStore.set(ENABLED_STATE_KEY, value);
+}
+
+export async function getSizeOverride(): Promise<number | null> {
+  return await clientStore.get(SIZE_OVERRIDE_KEY);
+}
+
+export async function setSizeOverride(value: number) {
+  return await clientStore.set(SIZE_OVERRIDE_KEY, value);
 }
 
 export async function getCustomStyles() {

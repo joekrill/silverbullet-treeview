@@ -71,7 +71,12 @@ function createTreeView(config) {
      * @param {SortableTreeNode} node
      */
     onClick: async (_event, node) => {
-      await syscall("editor.navigate", node.data.name, false, false);
+      if (node.data.nodeType === "attachment") {
+        // Open attachment in new tab
+        window.open(`/${node.data.name}`, "_blank");
+      } else {
+        await syscall("editor.navigate", node.data.name, false, false);
+      }
     },
 
     /**
@@ -128,12 +133,22 @@ function initializeTreeViewPanel(config) {
         }
         return false;
       }
+      case "increase-width": {
+        syscall("system.invokeFunction", "treeview.increaseWidth");
+        return true;
+      }
+      case "decrease-width": {
+        syscall("system.invokeFunction", "treeview.decreaseWidth");
+        return true;
+      }
     }
 
     return false;
   }
 
-  handleAction("reveal-current-page");
+  if (config.revealOnLoad) {
+    handleAction("reveal-current-page");
+  }
 
   document.querySelectorAll("[data-treeview-action]").forEach((el) => {
     el.addEventListener("click", (e) => {
