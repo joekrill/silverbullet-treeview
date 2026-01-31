@@ -14,6 +14,10 @@
   --treeview-folder-background-color: var(--treeview-page-background-color);
   --treeview-folder-border-color: var(--treeview-page-background-color);
 
+  --treeview-attachment-color: var(--subtle-color);
+  --treeview-attachment-background-color: var(--treeview-page-background-color);
+  --treeview-attachment-border-color: var(--treeview-page-background-color);
+
   --treeview-current-page-color: #eee;
 	--treeview-current-page-background-color: var(--ui-accent-color);
   --treeview-current-page-border-color: var(--treeview-page-border-color);
@@ -164,6 +168,12 @@ html, body {
   background-color: var(--treeview-folder-background-color);
   border-color: var(--treeview-folder-border-color);
   color: var(--treeview-folder-color);
+}
+
+.tree__label > span[data-node-type="attachment"] {
+  background-color: var(--treeview-attachment-background-color);
+  border-color: var(--treeview-attachment-border-color);
+  color: var(--treeview-attachment-color);
 }
 
 

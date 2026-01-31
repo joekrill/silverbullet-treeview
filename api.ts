@@ -1,5 +1,5 @@
-import { editor, system } from "@silverbulletmd/silverbullet/syscalls";
-import { PageMeta } from "@silverbulletmd/silverbullet/types";
+import { editor, space, system } from "@silverbulletmd/silverbullet/syscalls";
+import { AttachmentMeta, PageMeta } from "@silverbulletmd/silverbullet/types";
 import { PLUG_DISPLAY_NAME, TreeViewConfig } from "./config.ts";
 import { filterPagesByFunction } from "./filters/filterByFunction.ts";
 import { filterPagesByRegex } from "./filters/filterByRegex.ts";
@@ -33,8 +33,12 @@ export type FolderData = NodeData & {
   nodeType: "folder";
 };
 
+export type AttachmentData = AttachmentMeta & NodeData & {
+  nodeType: "attachment";
+};
+
 export type TreeNode = {
-  data: PageData | FolderData;
+  data: PageData | FolderData | AttachmentData;
   nodes: TreeNode[];
 };
 
@@ -92,6 +96,38 @@ treeview:
 
   pages.sort((a, b) => a.name.localeCompare(b.name));
 
+  const sortOrder = config.sort?.order ?? "asc";
+  const positions = config.sort?.positions ?? {};
+  const posFolder = positions.folders ?? 1;
+  const posFolderNote = positions.folderNotes ?? 1;
+  const posPage = positions.pages ?? 2;
+  const posAttachment = positions.attachments ?? 2;
+
+  const getNodeWeight = (node: TreeNode): number => {
+    if (node.data.nodeType === "folder") return posFolder;
+    if (node.data.nodeType === "attachment") return posAttachment;
+    // It's a page - check if it's a folder-note (has children)
+    if (node.nodes.length > 0) return posFolderNote;
+    return posPage;
+  };
+
+  const sortNodes = (nodes: TreeNode[]) => {
+    nodes.sort((a, b) => {
+      const weightA = getNodeWeight(a);
+      const weightB = getNodeWeight(b);
+
+      // Sort by weight first
+      if (weightA !== weightB) {
+        return weightA - weightB;
+      }
+
+      // Equal weights: alphabetical comparison
+      const cmp = a.data.title.localeCompare(b.data.title);
+      return sortOrder === "desc" ? -cmp : cmp;
+    });
+    nodes.forEach((n) => sortNodes(n.nodes));
+  };
+
   pages.forEach((page) => {
     page.name.split("/").reduce((parent, title, currentIndex, parts) => {
       const isLeaf = parts.length - 1 === currentIndex;
@@ -142,6 +178,65 @@ treeview:
       return node;
     }, root);
   });
+
+  // Add attachments if enabled
+  if (config.attachments?.enabled) {
+    let attachments = await space.listAttachments() as AttachmentMeta[];
+
+    // Filter by extension regex if provided
+    if (config.attachments.extensionExcludeRegex) {
+      const regex = new RegExp(config.attachments.extensionExcludeRegex);
+      attachments = attachments.filter((a) => !regex.test(a.name));
+    }
+
+    attachments.forEach((attachment) => {
+      attachment.name.split("/").reduce((parent, title, currentIndex, parts) => {
+        const isLeaf = parts.length - 1 === currentIndex;
+        let node = parent.nodes.find((child) => child.data.title === title);
+
+        if (node) {
+          if (isLeaf && node.data.nodeType === "folder") {
+            // Convert folder to attachment
+            node.data = {
+              ...attachment,
+              title,
+              isCurrentPage: false,
+              nodeType: "attachment",
+            };
+          }
+          return node;
+        }
+
+        if (isLeaf) {
+          node = {
+            data: {
+              ...attachment,
+              title,
+              isCurrentPage: false,
+              nodeType: "attachment",
+            },
+            nodes: [],
+          };
+        } else {
+          const name = parts.slice(0, currentIndex + 1).join("/");
+          node = {
+            data: {
+              title,
+              isCurrentPage: false,
+              name,
+              nodeType: "folder",
+            },
+            nodes: [],
+          };
+        }
+
+        parent.nodes.push(node);
+        return node;
+      }, root);
+    });
+  }
+
+  sortNodes(root.nodes);
 
   return {
     nodes: root.nodes,

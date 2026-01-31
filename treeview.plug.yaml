@@ -25,3 +25,25 @@ functions:
       name: "Tree View: Toggle"
       key: Ctrl-alt-b
       mac: Cmd-alt-b
+
+  reveal:
+    path: "./treeview.ts:showTree"
+    command:
+      name: "Tree View: Reveal Current Page"
+
+  deletePage:
+    path: "./treeview.ts:deletePage"
+    command:
+      name: "Page: Delete (shortcut)"
+      key: Ctrl-Shift-d
+      mac: Cmd-Shift-d
+
+  increaseWidth:
+    path: "./treeview.ts:increaseWidth"
+    command:
+      name: "Tree View: Increase Width"
+
+  decreaseWidth:
+    path: "./treeview.ts:decreaseWidth"
+    command:
+      name: "Tree View: Decrease Width"
