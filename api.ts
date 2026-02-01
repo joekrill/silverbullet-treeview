@@ -76,11 +76,15 @@ treeview:
   }
 
   console.log(`${PLUG_DISPLAY_NAME}: exclusions config:`, JSON.stringify(config.exclusions));
+  console.log(`${PLUG_DISPLAY_NAME}: pages before exclusions:`, pages.map(p => p.name));
   if (config.exclusions) {
     for (const exclusion of config.exclusions) {
+      console.log(`${PLUG_DISPLAY_NAME}: applying exclusion:`, JSON.stringify(exclusion));
+      const beforeCount = pages.length;
       switch (exclusion.type) {
         case "regex": {
           pages = filterPagesByRegex(pages, exclusion);
+          console.log(`${PLUG_DISPLAY_NAME}: regex "${exclusion.rule}" filtered ${beforeCount} -> ${pages.length}`);
           break;
         }
         case "tags": {
