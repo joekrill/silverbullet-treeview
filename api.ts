@@ -75,6 +75,7 @@ treeview:
     });
   }
 
+  console.log(`${PLUG_DISPLAY_NAME}: exclusions config:`, JSON.stringify(config.exclusions));
   if (config.exclusions) {
     for (const exclusion of config.exclusions) {
       switch (exclusion.type) {
