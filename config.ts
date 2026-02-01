@@ -178,9 +178,12 @@ let configErrorShown = false;
 
 export async function getPlugConfig(): Promise<TreeViewConfig> {
   const userConfig = await system.getSpaceConfig("treeview", {});
+  console.log(`${PLUG_DISPLAY_NAME}: raw config from space:`, JSON.stringify(userConfig));
 
   try {
-    return treeViewConfigSchema.parse(userConfig || {});
+    const parsed = treeViewConfigSchema.parse(userConfig || {});
+    console.log(`${PLUG_DISPLAY_NAME}: parsed config:`, JSON.stringify(parsed));
+    return parsed;
   } catch (_err) {
     if (!configErrorShown) {
       showConfigErrorNotification(_err);
