@@ -194,6 +194,16 @@ treeview:
       attachments = attachments.filter((a) => !regex.test(a.name));
     }
 
+    // Apply same exclusions as pages (regex only)
+    if (config.exclusions) {
+      for (const exclusion of config.exclusions) {
+        if (exclusion.type === "regex") {
+          const regex = new RegExp(exclusion.rule);
+          attachments = attachments.filter((a) => regex.test(a.name) === exclusion.negate);
+        }
+      }
+    }
+
     attachments.forEach((attachment) => {
       attachment.name.split("/").reduce((parent, title, currentIndex, parts) => {
         const isLeaf = parts.length - 1 === currentIndex;
