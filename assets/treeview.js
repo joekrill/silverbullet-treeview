@@ -141,6 +141,10 @@ function initializeTreeViewPanel(config) {
         syscall("system.invokeFunction", "treeview.decreaseWidth");
         return true;
       }
+      case "toggle-hidden": {
+        syscall("system.invokeFunction", "treeview.toggleHidden");
+        return true;
+      }
     }
 
     return false;

@@ -47,3 +47,8 @@ functions:
     path: "./treeview.ts:decreaseWidth"
     command:
       name: "Tree View: Decrease Width"
+
+  toggleHidden:
+    path: "./treeview.ts:toggleHidden"
+    command:
+      name: "Tree View: Toggle Hidden Files"

@@ -45,7 +45,7 @@ export type TreeNode = {
 /**
  * Generates a TreeNode array from the list of pages in the current space.
  */
-export async function getPageTree(config: TreeViewConfig) {
+export async function getPageTree(config: TreeViewConfig, showHidden = false) {
   const currentPage = await editor.getCurrentPage();
   // The index plug's `queryObjects` function is used so that we include the
   // page tags -- `space.listPages()` does not populate those attributes.
@@ -57,43 +57,45 @@ export async function getPageTree(config: TreeViewConfig) {
 
   const root = { nodes: [] as TreeNode[] };
 
-  if (config.pageExcludeRegex) {
-    const deprecationWarning = `${PLUG_DISPLAY_NAME}:
+  if (!showHidden) {
+    if (config.pageExcludeRegex) {
+      const deprecationWarning = `${PLUG_DISPLAY_NAME}:
 \`pageExcludeRegex\` setting is deprecated. Please use \`exclusions\`:
 
 \`\`\`yaml
-treeview: 
+treeview:
   exclusions:
   - type: regex
     rule: "${config.pageExcludeRegex}"
 \`\`\`
-    `;
-    console.warn(deprecationWarning);
-    pages = filterPagesByRegex(pages, {
-      rule: config.pageExcludeRegex,
-      negate: false,
-    });
-  }
+      `;
+      console.warn(deprecationWarning);
+      pages = filterPagesByRegex(pages, {
+        rule: config.pageExcludeRegex,
+        negate: false,
+      });
+    }
 
-  console.log(`${PLUG_DISPLAY_NAME}: exclusions config:`, JSON.stringify(config.exclusions));
-  console.log(`${PLUG_DISPLAY_NAME}: pages before exclusions:`, pages.map(p => p.name));
-  if (config.exclusions) {
-    for (const exclusion of config.exclusions) {
-      console.log(`${PLUG_DISPLAY_NAME}: applying exclusion:`, JSON.stringify(exclusion));
-      const beforeCount = pages.length;
-      switch (exclusion.type) {
-        case "regex": {
-          pages = filterPagesByRegex(pages, exclusion);
-          console.log(`${PLUG_DISPLAY_NAME}: regex "${exclusion.rule}" filtered ${beforeCount} -> ${pages.length}`);
-          break;
-        }
-        case "tags": {
-          pages = filterPagesByTags(pages, exclusion);
-          break;
-        }
-        case "space-function": {
-          pages = await filterPagesByFunction(pages, exclusion);
-          break;
+    console.log(`${PLUG_DISPLAY_NAME}: exclusions config:`, JSON.stringify(config.exclusions));
+    console.log(`${PLUG_DISPLAY_NAME}: pages before exclusions:`, pages.map(p => p.name));
+    if (config.exclusions) {
+      for (const exclusion of config.exclusions) {
+        console.log(`${PLUG_DISPLAY_NAME}: applying exclusion:`, JSON.stringify(exclusion));
+        const beforeCount = pages.length;
+        switch (exclusion.type) {
+          case "regex": {
+            pages = filterPagesByRegex(pages, exclusion);
+            console.log(`${PLUG_DISPLAY_NAME}: regex "${exclusion.rule}" filtered ${beforeCount} -> ${pages.length}`);
+            break;
+          }
+          case "tags": {
+            pages = filterPagesByTags(pages, exclusion);
+            break;
+          }
+          case "space-function": {
+            pages = await filterPagesByFunction(pages, exclusion);
+            break;
+          }
         }
       }
     }
@@ -189,13 +191,13 @@ treeview:
     let attachments = await space.listAttachments() as AttachmentMeta[];
 
     // Filter by extension regex if provided
-    if (config.attachments.extensionExcludeRegex) {
+    if (!showHidden && config.attachments.extensionExcludeRegex) {
       const regex = new RegExp(config.attachments.extensionExcludeRegex);
       attachments = attachments.filter((a) => !regex.test(a.name));
     }
 
     // Apply same exclusions as pages (regex only)
-    if (config.exclusions) {
+    if (!showHidden && config.exclusions) {
       for (const exclusion of config.exclusions) {
         if (exclusion.type === "regex") {
           const regex = new RegExp(exclusion.rule);
