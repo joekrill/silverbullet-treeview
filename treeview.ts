@@ -3,10 +3,12 @@ import { getPageTree } from "./api.ts";
 import {
   getCustomStyles,
   getSizeOverride,
+  isShowHidden,
   isTreeViewEnabled,
   PLUG_DISPLAY_NAME,
   PLUG_NAME,
   Position,
+  setShowHidden,
   setSizeOverride,
   setTreeViewEnabled,
 } from "./config.ts";
@@ -72,6 +74,8 @@ export async function showTree() {
     await hideTree();
   }
 
+  const showHidden = await isShowHidden();
+
   const [
     sortableTreeCss,
     sortableTreeJs,
@@ -82,6 +86,8 @@ export async function showTree() {
     iconNavigation2,
     iconRefresh,
     iconXCircle,
+    iconEye,
+    iconEyeOff,
   ] = await Promise.all([
     asset.readAsset(PLUG_NAME, "assets/sortable-tree/sortable-tree.css"),
     asset.readAsset(PLUG_NAME, "assets/sortable-tree/sortable-tree.js"),
@@ -92,9 +98,11 @@ export async function showTree() {
     asset.readAsset(PLUG_NAME, "assets/icons/navigation-2.svg"),
     asset.readAsset(PLUG_NAME, "assets/icons/refresh-cw.svg"),
     asset.readAsset(PLUG_NAME, "assets/icons/x-circle.svg"),
+    asset.readAsset(PLUG_NAME, "assets/icons/eye.svg"),
+    asset.readAsset(PLUG_NAME, "assets/icons/eye-off.svg"),
   ]);
 
-  const { currentPage, nodes } = await getPageTree(config);
+  const { currentPage, nodes } = await getPageTree(config, showHidden);
   const customStyles = await getCustomStyles();
 
   const treeViewConfig = {
@@ -129,6 +137,7 @@ export async function showTree() {
               <button type="button" data-treeview-action="collapse-all" title="Collapse all">${iconFolderMinus}</button>
               <button type="button" data-treeview-action="reveal-current-page" title="Reveal current page">${iconNavigation2}</button>
               <button type="button" data-treeview-action="refresh" title="Refresh treeview">${iconRefresh}</button>
+              <button type="button" data-treeview-action="toggle-hidden" title="${showHidden ? "Hide excluded files" : "Show excluded files"}">${showHidden ? iconEye : iconEyeOff}</button>
               <button type="button" data-treeview-action="decrease-width" title="Decrease width">&gt;-&lt;</button>
               <button type="button" data-treeview-action="increase-width" title="Increase width">&lt;-&gt;</button>
             </div>
@@ -148,6 +157,15 @@ export async function showTree() {
 
   await setTreeViewEnabled(true);
   currentPosition = config.position;
+}
+
+/**
+ * Toggles visibility of excluded (hidden) files.
+ */
+export async function toggleHidden() {
+  const current = await isShowHidden();
+  await setShowHidden(!current);
+  await showTree();
 }
 
 /**

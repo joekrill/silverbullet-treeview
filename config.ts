@@ -24,6 +24,11 @@ const ENABLED_STATE_KEY = "enableTreeView";
 const SIZE_OVERRIDE_KEY = "treeViewSizeOverride";
 
 /**
+ * The key used to save whether hidden (excluded) files are shown.
+ */
+const SHOW_HIDDEN_KEY = "treeViewShowHidden";
+
+/**
  * The possible position where the treeview can be rendered.
  */
 const POSITIONS = ["rhs", "lhs", "bhs", "modal"] as const;
@@ -208,6 +213,14 @@ export async function getSizeOverride(): Promise<number | null> {
 
 export async function setSizeOverride(value: number) {
   return await clientStore.set(SIZE_OVERRIDE_KEY, value);
+}
+
+export async function isShowHidden(): Promise<boolean> {
+  return !!(await clientStore.get(SHOW_HIDDEN_KEY));
+}
+
+export async function setShowHidden(value: boolean) {
+  return await clientStore.set(SHOW_HIDDEN_KEY, value);
 }
 
 export async function getCustomStyles() {
