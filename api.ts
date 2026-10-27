@@ -42,6 +42,8 @@ export type TreeNode = {
   nodes: TreeNode[];
 };
 
+let currentPageMeta: PageMeta | undefined;
+
 /**
  * Generates a TreeNode array from the list of pages in the current space.
  */
@@ -54,6 +56,27 @@ export async function getPageTree(config: TreeViewConfig, showHidden = false) {
     "page",
     {},
   ) as PageMeta[];
+
+  // A save can refresh the tree while the current page is absent from the index.
+  // Keep its last indexed attributes so exclusions still apply to the fallback.
+  const indexedCurrentPage = pages.find((page) => page.name === currentPage);
+  if (indexedCurrentPage) {
+    currentPageMeta = indexedCurrentPage;
+  } else if (currentPageMeta?.name === currentPage) {
+    const fallbackPage = currentPageMeta;
+    try {
+      if (await space.getPageMeta(currentPage)) {
+        pages.push(fallbackPage);
+      } else if (currentPageMeta === fallbackPage) {
+        currentPageMeta = undefined;
+      }
+    } catch {
+      // Do not restore a page that has been deleted or is no longer readable.
+      if (currentPageMeta === fallbackPage) currentPageMeta = undefined;
+    }
+  } else {
+    currentPageMeta = undefined;
+  }
 
   const root = { nodes: [] as TreeNode[] };
 
